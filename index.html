@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.color-red {color:red;}
+		.color-blue {color:blue;}
+		.is-loading {color:red;background:green;}
+	</style>
+</head>
+<body>
+	<div id="root">
+		<input type="text" id="input" v-model= "message">
+		<p> The value of this message is : {{ message }} </p>
+		<ul>
+			<li v-for="name in names">{{ name }} </li>
+		</ul>
+		<h3> Using v-text </h3>
+		<ul>
+			<li v-for="name in names" v-text="name"></li>
+		</ul>
+		<input type="" id="name-input" v-model="newName">
+		<!-- <button v-on:click="addName">Add Name</button> -->
+		<button @click="addName" v-bind:title="title" >Add Name</button>
+		<h1 :class="className">Prajakta Rajendra Lombar</h1>
+		<button :class="{'is-loading':isLoading}" @click="toggleClass">Toggle Me</button>
+		<h1>
+			{{ reversedMessage }}
+		</h1>
+		<h1>Task List</h1>
+		<ul>
+			<li v-for="task in tasks" v-text="task.description"></li>
+		</ul>
+
+		<h1>Completed Task List</h1>
+		<ul>
+			<li v-for="task in tasks" v-if="task.completed" v-text="task.description"></li>
+		</ul>
+
+		<h1>Incompleted Task List</h1>
+		<ul>
+			<li v-for="task in incompleteTasks" v-text="task.description"></li>
+		</ul>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
+	<script>
+		let data={
+			message:"Hello Word!"
+		};
+
+		var app = new Vue({
+			el:'#root',
+			data:{
+				newName:"",
+				message:"Hello Word!",
+				names:["Prajakta","Ganesh","Shantanu","Amit"],
+				title:"Add Names",
+				className:"color-red",
+				isLoading:false,
+				tasks:[
+					{description : 'Go to the store',completed :false},
+					{description : 'Buy some product',completed :true},
+					{description : 'Make donation',completed :false},
+					{description : 'Go for the dinner',completed :true},
+					{description : 'Clean the room',completed :false}
+				]
+			},
+
+			computed:{
+				reversedMessage(){
+					 return this.message.split('').reverse().join('')
+				},
+				incompleteTasks(){
+					return this.tasks.filter(task => !task.completed);
+				}
+			},
+
+			methods :{
+				addName(){
+					this.names.push(this.newName);
+					this.newName="";
+				},
+
+				toggleClass(){
+					this.isLoading=true;
+				}
+			}
+		})
+	</script>
+</body>
+</html>
